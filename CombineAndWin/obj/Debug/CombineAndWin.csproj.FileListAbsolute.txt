@@ -1,0 +1,6 @@
+C:\Users\gregf\source\repos\CombineAndWin\CombineAndWin\bin\Debug\CombineAndWin.exe.config
+C:\Users\gregf\source\repos\CombineAndWin\CombineAndWin\bin\Debug\CombineAndWin.exe
+C:\Users\gregf\source\repos\CombineAndWin\CombineAndWin\bin\Debug\CombineAndWin.pdb
+C:\Users\gregf\source\repos\CombineAndWin\CombineAndWin\obj\Debug\CombineAndWin.csprojAssemblyReference.cache
+C:\Users\gregf\source\repos\CombineAndWin\CombineAndWin\obj\Debug\CombineAndWin.exe
+C:\Users\gregf\source\repos\CombineAndWin\CombineAndWin\obj\Debug\CombineAndWin.pdb
