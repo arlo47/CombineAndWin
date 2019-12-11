@@ -44,7 +44,7 @@ namespace CombineAndWin {
 
         public void SubtractPoints(int pointsToSubtract) {
 
-            if (points > pointsToSubtract)
+            if (points >= pointsToSubtract)
                 points -= pointsToSubtract;
             else if (points > 0 && points < pointsToSubtract)
                 points = 0;
@@ -123,6 +123,13 @@ namespace CombineAndWin {
                 cardsInHand--;
                 return true;
             }         
+        }
+
+        public void DrawNewHand() {
+            for (int i = 0; i < hand.Length; i++) {
+                hand[i] = null;
+            }
+            FillHand();
         }
 
         #region Winning Combination Tests
@@ -301,9 +308,13 @@ namespace CombineAndWin {
         public string PrintHand() {
             StringBuilder sbHand = new StringBuilder();
 
+            sbHand.AppendLine("\n-------------------------------------------------------------------------------");
+
             foreach (Card card in hand) {
                 sbHand.Append(card + " ");
             }
+
+            sbHand.AppendLine("\n-------------------------------------------------------------------------------");
 
             return sbHand.ToString();
 

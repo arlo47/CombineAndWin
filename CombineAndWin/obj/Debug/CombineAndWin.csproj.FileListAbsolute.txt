@@ -4,3 +4,9 @@ C:\Users\gregf\source\repos\CombineAndWin\CombineAndWin\bin\Debug\CombineAndWin.
 C:\Users\gregf\source\repos\CombineAndWin\CombineAndWin\obj\Debug\CombineAndWin.csprojAssemblyReference.cache
 C:\Users\gregf\source\repos\CombineAndWin\CombineAndWin\obj\Debug\CombineAndWin.exe
 C:\Users\gregf\source\repos\CombineAndWin\CombineAndWin\obj\Debug\CombineAndWin.pdb
+C:\repositories\CombineAndWin\CombineAndWin\obj\Debug\CombineAndWin.csprojAssemblyReference.cache
+C:\repositories\CombineAndWin\CombineAndWin\obj\Debug\CombineAndWin.exe
+C:\repositories\CombineAndWin\CombineAndWin\obj\Debug\CombineAndWin.pdb
+C:\repositories\CombineAndWin\CombineAndWin\bin\Debug\CombineAndWin.exe.config
+C:\repositories\CombineAndWin\CombineAndWin\bin\Debug\CombineAndWin.exe
+C:\repositories\CombineAndWin\CombineAndWin\bin\Debug\CombineAndWin.pdb

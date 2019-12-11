@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 
 /**
- * create a game object which will contain the hand, test winning combo methods and points
- * High Five is not working properly.
+ * - Good use of game object containing deck, hand and all methods?
  */
 
 namespace CombineAndWin {
@@ -28,17 +27,17 @@ namespace CombineAndWin {
             do {
 
                 Console.WriteLine("Select an option: \n" +
-                                    "  1. Play\n" +
-                                    "  2. Manual Testing\n" +
-                                    "  3. Reset Game\n" +
-                                    $"  {EXIT_VALUE}. Exit");
+                                    "\t1. Play\n" +
+                                    "\t2. Manual Testing\n" +
+                                    "\t3. Reset Game\n" +
+                                   $"\t{EXIT_VALUE}. Exit");
 
                 option = GetIntegerInput(Console.ReadLine(), 1, EXIT_VALUE);
 
                 switch (option) {
                     case 1:
                         game.FillHand();
-                         DiscardingRounds(game);
+                        DiscardingRounds(game);
                         break;
                     case 2:
                         ManualTestMenu(game);
@@ -72,30 +71,31 @@ namespace CombineAndWin {
             int cardsDiscarded = 0;
 
             while (discardRounds < 3) {
-                game.FillHand();
 
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine($"You have: {game.PrintHand() }");
                 Console.ResetColor();
 
                 Console.WriteLine($"\nWould you like to discard more cards?\n" +
-                                  $"  1. Discard cards\n" +
-                                  $"  2. Continue to point round");
+                                  $"\t1. Discard cards\n" +
+                                  $"\t2. Continue to point round");
 
                 roundsOption = GetIntegerInput(Console.ReadLine(), 1, 2);
 
                 if (roundsOption == 2)
                     break;
 
-                while (cardsDiscarded < 4 && cardsDiscardedOption != 0) {
-                    cardsDiscarded = 0;
+                cardsDiscarded = 0;             //reset cards discarded for new discard round
+                cardsDiscardedOption = 10;      //reset menu option, as 0 breaks out of the loop
 
+                while (cardsDiscarded < 4 && cardsDiscardedOption != 0) {
+                    
                     Console.WriteLine($"\nDiscard Round: {discardRounds}\n" +
                                       $"Cards Discarded: {cardsDiscarded}");
 
                     Console.WriteLine("Pick up to 4 cards to discard. Press 0 to continue.");
 
-                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"\n1. {game.GetHand()[0]}   " +
                                         $"2. {game.GetHand()[1]}   " +
                                         $"3. {game.GetHand()[2]}   " +
@@ -108,7 +108,7 @@ namespace CombineAndWin {
 
                     try {
                         if (cardsDiscardedOption == 0)
-                            break;  //Run check points method
+                            break;                                                  //end discard round
                         else if (game.DiscardCard(indexToDiscards)) {
                             Console.ForegroundColor = ConsoleColor.Yellow;
                             Console.WriteLine("Card successfully removed.");
@@ -124,29 +124,109 @@ namespace CombineAndWin {
                     }
                 }
                 discardRounds++;
+                game.FillHand();
             }
 
-            Console.WriteLine("Broken out of nested while loops."); //run check points method
+            CheckCombination(game);
 
         }
 
-        public void CheckCombination(Game game) {
+        static void CheckCombination(Game game) {
 
+            int pointsGained;
             int previousPoints = game.GetPoints();
-            bool IsWinner = game.IsWinningCombination(game.GetHand());
 
-            if (IsWinner) {
-                int pointsGained = game.GetPoints() - previousPoints;
-                Console.WriteLine($"You win!!! You gained {pointsGained}");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"You have: {game.PrintHand() }");
+            Console.ResetColor();
+
+            if (game.IsHighFive(game.GetHand())) {
+                pointsGained = game.GetPoints() - previousPoints;
+                Console.WriteLine($"You got a high five! You gained {pointsGained} points.");
+            }
+            else if (game.IsSequence(game.GetHand())) {
+                pointsGained = game.GetPoints() - previousPoints;
+                Console.WriteLine($"You got a sequence! You gained {pointsGained} points.");
+            }
+            else if (game.IsQuadruplets(game.GetHand())) {
+                pointsGained = game.GetPoints() - previousPoints;
+                Console.WriteLine($"You got a quadruplet! You gained {pointsGained} points.");
+            }
+            else if (game.IsFamily(game.GetHand())) {
+                pointsGained = game.GetPoints() - previousPoints;
+                Console.WriteLine($"You got a family! You gained {pointsGained} points.");
+            }
+            else if (game.IsMixedSequence(game.GetHand())) {
+                pointsGained = game.GetPoints() - previousPoints;
+                Console.WriteLine($"You got a mixed sequence! You gained {pointsGained} points.");
+            }
+            else if (game.IsDoubleTwins(game.GetHand())) {
+                pointsGained = game.GetPoints() - previousPoints;
+                Console.WriteLine($"You got double twins! You gained {pointsGained} points.");
             }
             else {
-                Console.WriteLine($"You lose :( You lose 1000 points. You now have {game.GetPoints()}");
+                game.SubtractPoints(1000);
+                Console.WriteLine($"You did not get a winning combination. You lost 1000 points.");
             }
+                       
+            Console.WriteLine($"You have {game.GetPoints()} points");
 
-            //Menu asking user to try again or return to main menu
+            if (game.GetPoints() > 0)
+                ReplayMenu(game);
+            else
+                GameOver(game);
+        }
+
+        static void ReplayMenu(Game game) {
+
+            int option = -1;
+            const int EXIT_VALUE = 2;
+
+            do {
+
+                Console.WriteLine($"Would you like to play another round?\n" +
+                                  $"\t1. Play another round.\n" +
+                                  $"\t2. Back to main menu.");
+
+                option = GetIntegerInput(Console.ReadLine(), 1, EXIT_VALUE);
+
+                switch (option) {
+                    case 1:
+                        game.DrawNewHand();
+                        DiscardingRounds(game);
+                        break;
+                    case EXIT_VALUE:
+                        Main(null);
+                        break;
+                }
+
+            } while (option != EXIT_VALUE);
 
         }
 
+        static void GameOver(Game game) {
+
+            int option = -1;
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"You lose :(");
+            Console.ResetColor();
+
+            Console.WriteLine($"\t1. Play Again\n" +
+                              $"\t2. Back to main menu");
+
+            option = GetIntegerInput(Console.ReadLine(), 1, 2);
+
+            switch (option) {
+                case 1:
+                    game = new Game();
+                    DiscardingRounds(game);
+                    break;
+                case 2:
+                    Main(null);
+                    break;
+            }
+        }
         #endregion
 
         #region Manual Testing
